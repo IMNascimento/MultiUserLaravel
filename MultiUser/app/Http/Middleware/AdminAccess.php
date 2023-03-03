@@ -15,6 +15,14 @@ class AdminAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (Auth::check() AND Auth::user()->type == "admin") {
+            return $next($request);
+          }else {
+            if (!Auth::check()) {
+              return redirect('/login');
+            }
+            return redirect('/');
+          }
+        
     }
 }
